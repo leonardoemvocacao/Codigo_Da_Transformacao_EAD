@@ -50,6 +50,6 @@ l4 = Livro("It a coisa", "Stephen King")
 biblioteca_municipal.adicionar_livro(l1)
 biblioteca_municipal.adicionar_livro(l2)
 
-print(l2) # Estado inicial
+print(l2) 
 biblioteca_municipal.emprestar_livro("O Principezinho")
-print(l2) # Estado após empréstimo
+print(l2) 
