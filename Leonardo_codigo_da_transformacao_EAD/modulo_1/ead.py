@@ -1,55 +1,36 @@
-'''
-Criar um Sistema de Biblioteca
-
-Class Livro
-
-    (Produtos) 
-    Livros, Periodicos, Jornal, Maps, Gibi/Mangás
-
-Class Biblioteca (main)
-
-    (Processos / Serviços)
-    Ler, Pesquisa, Emprestado-Devolução
-atributos - metodos
-'''
-class Livro:
-    def __init__(self, titulo, autor):
-        self.titulo = titulo
-        self.autor = autor
-        self.disponivel = True
-
-    def __str__(self):
-        status = "Disponível" if self.disponivel else "Emprestado"
-        return f"'{self.titulo}' - {self.autor} [{status}]"
-
-class Biblioteca:
-    def __init__(self):
-        self.livros = [] 
-
-    def adicionar_livro(self, livro):
-        self.livros.append(livro)
-
-    def emprestar_livro(self, titulo_procurado):
-        for livro in self.livros:
-            if livro.titulo == titulo_procurado:
-                if livro.disponivel:
-                    livro.disponivel = False
-                    print(f"Empréstimo de '{livro.titulo}' realizado!")
-                else:
-                    print(f"O livro '{livro.titulo}' já está ocupado.")
-                return
-        print("Livro não encontrado no acervo.")
+num1 = float(input("Digite o primeiro número: "))
+num2 = float(input("Digite o segundo número: "))
 
 
-biblioteca_municipal = Biblioteca()
-l1 = Livro("Dom Quixote", "Miguel de Cervantes")
-l2 = Livro("O Principezinho", "Antoine de Saint-Exupéry")
-l3 = Livro("Don casmurro", "Machado de Assis")
-l4 = Livro("It a coisa", "Stephen King")
+print("Escolha a operação:")
+print("1 - Soma")
+print("2 - Subtração")
+print("3 - Multiplicação")
+print("4 - Divisão")
 
-biblioteca_municipal.adicionar_livro(l1)
-biblioteca_municipal.adicionar_livro(l2)
+opcao = input("Digite o número da opção (1/2/3/4): ")
 
-print(l2) 
-biblioteca_municipal.emprestar_livro("O Principezinho")
-print(l2) 
+
+if opcao == '1':
+    resultado = num1 + num2
+    print("O resultado da soma é:", resultado)
+
+elif opcao == '2':
+    resultado = num1 - num2
+    print("O resultado da subtração é:", resultado)
+
+elif opcao == '3':
+    resultado = num1 * num2
+    print("O resultado da multiplicação é:", resultado)
+
+elif opcao == '4':
+    if num2 != 0:
+        resultado = num1 / num2
+        print("O resultado da divisão é:", resultado)
+    else:
+        print("Erro! Não dá para dividir por zero.")
+
+else:
+    print("Opção inválida!")
+
+print("Fim do programa!")
