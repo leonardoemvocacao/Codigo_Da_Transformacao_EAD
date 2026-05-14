@@ -20,4 +20,4 @@ user_input = input("Digite o usuário: ")
 pass_input = input("Digite a senha: ")
 
 status = sistema_login(user_input, pass_input)
-print(status
+print(status)
