@@ -16,6 +16,19 @@ def configurar_login():
         senha_padrao = nova_senha 
         return True
     else:
+        print('\n[ERRO] As senhas não coincidem! A senha não foi alterada.')
+        return False
+
+def realizar_login_com_tentativas():
+    tentativas_restantes = 5
+    
+    print('\n--- Sistema de Login ---')
+    nome_usuario = input('Digite seu login: ')
+    
+    while tentativas_restantes > 0:
+        print(f'\nTentativas restantes: {tentativas_restantes}')
+        senha_digitada = getpass.getpass('Digite sua senha (os caracteres não aparecerão): ')
+
         if senha_digitada == senha_padrao:
             print(f'\n[SUCESSO] Bem-vindo, {nome_usuario}!')
             return True
