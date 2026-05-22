@@ -1,67 +1,98 @@
+import sqlite3
 
-print("--- CALCULADORA ---")
-num1 = float(input("Digite o primeiro número: "))
-num2 = float(input("Digite o segundo número: "))
 
-soma = num1 + num2
-subtracao = num1 - num2
-multiplicacao = num1 * num2
-divisao = num1 / num2
+conexao = sqlite3.connect("clientes.db")
 
-print("A soma é:", soma)
-print("A subtração é:", subtracao)
-print("A multiplicação é:", multiplicacao)
-print("A divisão é:", divisao)
 
-print("\n---------------------------\n")
+cursor = conexao.cursor()
 
-# --- Atividade 2: Ver qual número é maior ---
-print("--- QUAL É O MAIOR? ---")
-n1 = int(input("Digite um número: "))
-n2 = int(input("Digite outro número: "))
 
-if n1 > n2:
-    print("O primeiro número é maior!")
-elif n2 > n1:
-    print("O segundo número é maior!")
-else:
-    print("Os números são iguais!")
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS clientes (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nome TEXT NOT NULL,
+    email TEXT NOT NULL
+)
+""")
 
-print("\n---------------------------\n")
+print("Tabela criada com sucesso!")
 
-# --- Atividade 3: Classificar Idade ---
-print("--- CLASSIFICADOR DE IDADE ---")
-idade = int(input("Quantos anos você tem? "))
 
-if idade <= 12:
-    print("Você é uma Criança")
-elif idade >= 13 and idade <= 17:
-    print("Você é um Adolescente")
-elif idade >= 18 and idade <= 59:
-    print("Você é um Adulto")
-else:
-    print("Você é um Idoso")
 
-print("\n---------------------------\n")
+def inserir_cliente(nome, email):
+    cursor.execute("""
+    INSERT INTO clientes (nome, email)
+    VALUES (?, ?)
+    """, (nome, email))
 
-# --- Desafio Extra: Menu com While ---
-print("--- AGORA VAMOS TESTAR O MENU (WHILE) ---")
+    conexao.commit()
+    print("Cliente inserido com sucesso!")
 
-continuar = "sim"
 
-while continuar == "sim":
-    print("O que você quer fazer?")
-    print("A - Somar")
-    print("B - Sair")
-    
-    escolha = input("Digite A ou B: ")
-    
-    if escolha == "A" or escolha == "a":
-        v1 = float(input("Número 1: "))
-        v2 = float(input("Número 2: "))
-        print("Resultado:", v1 + v2)
-    elif escolha == "B" or escolha == "b":
-        print("Saindo do programa...")
-        continuar = "não" # Isso faz o while parar
-    else:
-        print("Opção errada!")
+def listar_clientes():
+    cursor.execute("SELECT * FROM clientes")
+
+    clientes = cursor.fetchall()
+
+    print("\n--- LISTA DE CLIENTES ---")
+
+    for cliente in clientes:
+        print(cliente)
+
+
+
+
+def atualizar_cliente(id, novo_nome, novo_email):
+    cursor.execute("""
+    UPDATE clientes
+    SET nome = ?, email = ?
+    WHERE id = ?
+    """, (novo_nome, novo_email, id))
+
+    conexao.commit()
+    print("Cliente atualizado!")
+
+
+
+def deletar_cliente(id):
+    cursor.execute("""
+    DELETE FROM clientes
+    WHERE id = ?
+    """, (id,))
+
+    conexao.commit()
+    print("Cliente deletado!")
+
+
+
+def clientes_com_a():
+    cursor.execute("""
+    SELECT * FROM clientes
+    WHERE nome LIKE 'A%'
+    """)
+
+    resultado = cursor.fetchall()
+
+    print("\n--- CLIENTES COM A ---")
+
+    for cliente in resultado:
+        print(cliente)
+
+
+inserir_cliente("Ana", "ana@gmail.com")
+inserir_cliente("Carlos", "carlos@gmail.com")
+inserir_cliente("Amanda", "amanda@gmail.com")
+
+listar_clientes()
+
+atualizar_cliente(1, "Ana Clara", "anaclara@gmail.com")
+
+listar_clientes()
+
+clientes_com_a()
+
+deletar_cliente(2)
+
+listar_clientes()
+
+conexao.close()
